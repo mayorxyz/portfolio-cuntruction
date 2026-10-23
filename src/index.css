@@ -1,0 +1,267 @@
+@import "tailwindcss";
+
+@theme {
+  --color-concrete: #E8E5DE;
+  --color-slab: #D9D5CC;
+  --color-ink: #121212;
+  --color-steel: #5C6166;
+  --color-safety: #FFC400;
+  --color-signal: #FF5A1F;
+  --color-rebar: #1C1F22;
+  --font-display: "Big Shoulders Display", sans-serif;
+  --font-body: "Archivo", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+/* Fonts loaded via Google Fonts in index.html */
+
+* {
+  border-radius: 0 !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Archivo", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: #E8E5DE;
+  color: #121212;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 3px solid #FFC400;
+  outline-offset: 2px;
+}
+
+/* Plate base */
+.plate {
+  border: 2px solid #121212;
+  border-radius: 0;
+  position: relative;
+  background-color: #E8E5DE;
+}
+
+.plate--slab {
+  background-color: #D9D5CC;
+}
+
+.plate--inverted {
+  background-color: #1C1F22;
+  color: #E8E5DE;
+  border-color: #E8E5DE;
+}
+
+.plate--safety {
+  background-color: #FFC400;
+}
+
+.plate--interactive {
+  box-shadow: 6px 6px 0 #121212;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.plate--interactive:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 #121212;
+}
+
+/* Hazard tape */
+.hazard-tape {
+  background: repeating-linear-gradient(
+    -45deg,
+    #FFC400,
+    #FFC400 10px,
+    #121212 10px,
+    #121212 20px
+  );
+}
+
+/* Corner bolts */
+.bolt {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #5C6166;
+  position: relative;
+}
+
+.bolt::before,
+.bolt::after {
+  content: "";
+  position: absolute;
+  background-color: #1C1F22;
+}
+
+.bolt::before {
+  width: 6px;
+  height: 1px;
+  top: 2.5px;
+  left: 0;
+}
+
+.bolt::after {
+  width: 1px;
+  height: 6px;
+  top: 0;
+  left: 2.5px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes drawStroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes gaugeNeedle {
+  from {
+    transform: rotate(-90deg);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease forwards;
+  opacity: 0;
+}
+
+.animate-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawStroke 1.2s ease forwards;
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-draw,
+  .animate-marquee {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  .plate--interactive {
+    transition: none;
+  }
+  .plate--interactive:hover {
+    transform: none;
+  }
+}
+
+/* Survey background */
+.survey-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.08;
+}
+
+@media (max-width: 640px) {
+  .survey-bg {
+    opacity: 0.04;
+  }
+}
+
+/* Engineering margin notes */
+.margin-formula {
+  position: absolute;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #5C6166;
+  opacity: 0.4;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #D9D5CC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5C6166;
+}
+
+/* Selection */
+::selection {
+  background: #FFC400;
+  color: #121212;
+}
+
+/* Link styles */
+a {
+  text-decoration: none;
+}
+
+/* Table styles */
+table {
+  border-collapse: collapse;
+}
+
+/* Stamp rotation for visual interest */
+.stamp-rotate {
+  transform: rotate(-3deg);
+}
+
+/* Page transition */
+main {
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.8; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main {
+    animation: none;
+  }
+}
